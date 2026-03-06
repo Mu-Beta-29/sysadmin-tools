@@ -12,6 +12,7 @@
         - Improved error handling in audit function
         - Added test mode for quick audits on TEST* machines
         - Added risk flagging logic for security and management purposes
+        -
 #>
 
 param(
@@ -41,7 +42,7 @@ if (-not $principal.IsInRole([Security.Principal.WindowsBuiltinRole]::Administra
     exit
 }
 
-# Pre-reqs Check
+# Pre-requirements Check
 
 if (-not (Get-Module ActiveDirectory -ListAvailable)) {
     Write-Error "ActiveDirectory module required. Install RSAT-AD-PowerShell feature."
@@ -216,4 +217,5 @@ Write-Host "="*60
 $staleCount = ($allComputers | Where-Object { $_.DaysSinceLogon -gt 90 }).Count
 if ($staleCount -gt 0) {
     Write-Host "Stale systems (>90 days): $staleCount" -ForegroundColor Yellow
+
 }
